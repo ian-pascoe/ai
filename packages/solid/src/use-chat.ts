@@ -11,30 +11,24 @@ import type {
 import { callChatApi, generateId as generateIdFunc } from '@ai-sdk/ui-utils';
 import {
   Accessor,
-  JSX,
-  Setter,
   createEffect,
   createMemo,
   createSignal,
   createUniqueId,
+  JSX,
+  Setter,
 } from 'solid-js';
 import { createStore, reconcile, Store } from 'solid-js/store';
-import { ReactiveLRU } from './utils/reactive-lru';
 import { convertToAccessorOptions } from './utils/convert-to-accessor-options';
+import { ReactiveLRU } from './utils/reactive-lru';
 
 export type { CreateMessage, Message };
 
 export type UseChatHelpers = {
   /**
-   * Current messages in the chat as a signal
-   * @deprecated Use `messagesStore` instead
+   * Current messages in the chat as a SolidJS store.
    */
-  messages: Accessor<Message[]>;
-
-  /**
-   * Current messages in the chat as a SolidJS Store
-   */
-  messagesStore: Store<Message[]>;
+  messages: () => Store<Message[]>;
 
   /** The error object of the API request */
   error: Accessor<undefined | Error>;
@@ -465,8 +459,8 @@ export function useChat(
   };
 
   return {
+    // TODO next major release: replace with direct message store access (breaking change)
     messages: () => messagesStore,
-    messagesStore,
     append,
     error,
     reload,

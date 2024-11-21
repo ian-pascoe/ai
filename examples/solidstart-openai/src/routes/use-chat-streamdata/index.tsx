@@ -3,7 +3,7 @@ import { useChat } from '@ai-sdk/solid';
 
 export default function Chat() {
   const {
-    messagesStore,
+    messages,
     input,
     handleInputChange,
     handleSubmit,
@@ -13,9 +13,7 @@ export default function Chat() {
     error,
     stop,
     reload,
-  } = useChat(() => ({
-    api: '/api/use-chat-streamdata',
-  }));
+  } = useChat({ api: '/api/use-chat-streamdata' });
 
   return (
     <div class="flex flex-col w-full max-w-md py-24 mx-auto stretch">
@@ -31,7 +29,7 @@ export default function Chat() {
         </button>
       </Show>
 
-      <For each={messagesStore}>
+      <For each={messages()}>
         {m => (
           <div class="whitespace-pre-wrap">
             <strong>{`${m.role}: `}</strong>

@@ -8,19 +8,19 @@ export default function Chat() {
     isLoading,
     handleInputChange,
     handleSubmit,
-    messagesStore,
+    messages,
     reload,
     stop,
-  } = useChat(() => ({
+  } = useChat({
     onFinish(message, { usage, finishReason }) {
       console.log('Usage', usage);
       console.log('FinishReason', finishReason);
     },
-  }));
+  });
 
   return (
     <div class="flex flex-col w-full max-w-md py-24 mx-auto stretch">
-      <For each={messagesStore}>
+      <For each={messages()}>
         {m => (
           <div class="whitespace-pre-wrap">
             {m.role === 'user' ? 'User: ' : 'AI: '}
